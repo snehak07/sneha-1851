@@ -6,6 +6,8 @@ import { BrandService } from './brand.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
 import { UserRole } from '../users/role.enum';
+import { UpdateBrandStatusDto } from './dto/update-brand-status.dto';
+import { ParseIntPipe } from '@nestjs/common';
 
 
 @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -22,6 +24,16 @@ export class BrandController {
     return this.brandService.create(dto, req.user);
   }
 
+  @Put('brands/:id/status')
+@Roles(UserRole.ADMIN)
+updateStatus(
+  @Param('id', ParseIntPipe) id: number,
+  @Body() dto: UpdateBrandStatusDto,
+) {
+  return this.brandService.updateStatus(id, dto.status);
+}
+
+
   @Get('Allbrands')
   findAll() {
     return this.brandService.findAll();
@@ -36,7 +48,7 @@ export class BrandController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.brandService.delete(id);
+  remove(@Param('id') id: number, @Req() req,) {
+    return this.brandService.delete(id, req.user);
   }
 }

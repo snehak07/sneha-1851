@@ -22,7 +22,9 @@ import { BrandModule } from './brands/brand.module';
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_NAME'),
         autoLoadEntities: true,
-        synchronize: true, // dev only
+        synchronize: false, //  turn off
+        migrationsRun: true, //  auto-run migrations
+        migrations: ['dist/migrations/*.js'],
       }),
       
     }),
