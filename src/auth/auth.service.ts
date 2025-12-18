@@ -18,26 +18,6 @@ export class AuthService {
   ) {}
 
   async signup(dto: SignupDto) {
-    const { email, password } = dto;
-
-    const existingUser = await this.userRepo.findOne({
-    where: { email },
-    });
-
-    if (existingUser) {
-     throw new BadRequestException('Email already exists');
-    }
-
-    const hashed = await bcrypt.hash(password, 10);
-
-    const user = this.userRepo.create({
-      email,
-      password: hashed,
-      role: UserRole.BRAND,
-    });
-
-    await this.userRepo.save(user);
-    return { message: 'Signup successful' };
   }
 
   async login(dto: LoginDto) {

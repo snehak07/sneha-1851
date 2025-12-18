@@ -14,7 +14,7 @@ export class UsersController {
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles(UserRole.ADMIN)
   createUser(@Body() dto: CreateUserDto) {
-    const { email, password, role } = dto;
-    return this.usersService.createUser(email, password, role);
+    const { email, password, role, brandId } = dto;
+    return this.usersService.createUser(dto);
   }
 }
