@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { User } from '../users/user.entity';
+import { BrandStatus } from './brand-status.enum';
 
 @Entity('brands')
 export class Brand {
@@ -14,6 +15,13 @@ export class Brand {
 
   @Column({ nullable: true })
   logoUrl: string;
+
+  @Column({
+  type: 'enum',
+  enum: BrandStatus,
+  default: BrandStatus.DISAPPROVED,
+  })
+  status: BrandStatus;
 
   // Admin who created this brand
   @ManyToOne(() => User, (user) => user.createdBrands, {
