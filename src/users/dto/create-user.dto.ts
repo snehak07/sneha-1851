@@ -1,5 +1,6 @@
 import { IsEmail, IsEnum, IsString, MinLength, IsOptional, IsNumber } from 'class-validator';
 import { UserRole } from '../role.enum';
+import { Type } from 'class-transformer';
 
 export class CreateUserDto {
   @IsEmail()
@@ -14,5 +15,6 @@ export class CreateUserDto {
 
   @IsOptional()
   @IsNumber()
+  @Type(() => Number)
   brandId?: number;
 }

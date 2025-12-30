@@ -6,12 +6,31 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { BrandModule } from './brands/brand.module';
+import { MailModule } from './mail/mail.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [ConfigModule.forRoot({
       isGlobal: true,
     }),
-    UsersModule,
+
+    MailerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        transport: {
+          host: config.get('MAIL_HOST'),
+          port: config.get('MAIL_PORT'),
+          secure: false,
+          auth: {
+            user: config.get('MAIL_USER'),
+            pass: config.get('MAIL_PASS'),
+          },
+        },
+        defaults: {
+          from: '"No Reply" <no-reply@yourapp.com>',
+        },
+      }),
+    }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
@@ -28,6 +47,8 @@ import { BrandModule } from './brands/brand.module';
     }),
     AuthModule,
     BrandModule,
+    MailModule,
+    UsersModule,
     
   ],
 
