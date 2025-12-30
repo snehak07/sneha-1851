@@ -8,6 +8,5 @@ export class BrandResponseDto {
   name: string;
   description?: string;
   logoUrl?: string;
-  createdAt: Date;
-  createdBy: BrandCreatorDto;
+  createdBy?: BrandCreatorDto;
 }
